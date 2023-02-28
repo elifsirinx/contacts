@@ -14,7 +14,7 @@ function List({ contacts }) {
     }); //item key : fullname ve phone_number
   });
 
-  console.log(filtered);
+  //console.log(filtered);
   return (
     <div>
       <input
@@ -22,13 +22,16 @@ function List({ contacts }) {
         value={filterText}
         onChange={(e) => setFilterText(e.target.value)}
       />
-      <ul>
+      <ul className="list">
         {filtered.map((contact, index) => (
           <li key={index}>
-            {contact.fullname} {contact.phone_number}
+            <span>{contact.fullname} </span>
+            <span>{contact.phone_number}</span>
           </li>
         ))}
       </ul>
+
+      <p>Total contacts ({filtered.length})</p>
     </div>
   );
 }
