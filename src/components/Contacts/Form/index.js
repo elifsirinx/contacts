@@ -1,7 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-function Form() {
-  const [form, setForm] = useState({ fullname: "", phone_number: "" });
+const initialFormValues = { fullname: "", phone_number: "" };
+function Form({ addContact, contacts }) {
+  const [form, setForm] = useState(initialFormValues);
+
+  //Bir kayıt eklendiyse inputun içini temizle.
+  useEffect(() => {
+    setForm(initialFormValues);
+  }, [contacts]);
 
   const onChangeInput = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -11,6 +17,14 @@ function Form() {
     //Form tagindeki onSubmit işleminde datayı aldıktan sonra sayfayı yeniliyor.
     //event.preventDefault() işleminde varsayılan işlemi durdurabiliriz.
     e.preventDefault();
+
+    //Formdaki isim veya numara alanı boş olduğu zaman return false yaparak işlemi keser.
+    if (form.fullname === "" || form.phone_number === "") {
+      return false;
+    }
+
+    addContact([...contacts, form]);
+    //setForm(initialFormValues);
     console.log(form);
   };
 
@@ -21,13 +35,15 @@ function Form() {
           <input
             name="fullname"
             placeholder="Full Name"
+            value={form.fullname}
             onChange={onChangeInput}
           />
         </div>
         <div>
           <input
-            name="number"
+            name="phone_number"
             placeholder="Phone Number"
+            value={form.phone_number}
             onChange={onChangeInput}
           />
         </div>
